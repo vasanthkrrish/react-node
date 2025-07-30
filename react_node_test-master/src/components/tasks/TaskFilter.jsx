@@ -103,7 +103,7 @@ const TaskFilter = () => {
    * @param {Array} taskList - List of tasks to count
    */
   const updateCounts = (taskList) => {
-    const completeTasks = taskList.filter(task => task.progress === 100).length;
+    const completeTasks = taskList.filter(task => task.progress > 80).length;
     const incompleteTasks = taskList.filter(task => task.progress !== 100).length;
     
     setCounts({
@@ -125,7 +125,7 @@ const TaskFilter = () => {
     
     // Apply status filter
     if (filterSettings.status !== 'all') {
-      result = result.filter(task => filterSettings.status === 'complete' ? task.progress === 100 : task.progress !== 100);
+      result = result.filter(task => filterSettings.status === 'complete' ? task.progress > 80 : task.progress !== 100);
     }
     
     // Apply search filter
@@ -255,21 +255,21 @@ const TaskFilter = () => {
             <li key={task._id} className="py-4">
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
-                  <h3 className={`text-lg font-medium ${task.progress === 100 ? 'line-through text-gray-500' : 'text-gray-900'}`}>
+                  <h3 className={`text-lg font-medium ${task.progress > 80 ? 'line-through text-gray-500' : 'text-gray-900'}`}>
                     {task.title}
                   </h3>
-                  <p className={`mt-1 text-sm ${task.progress === 100 ? 'text-gray-400' : 'text-gray-600'}`}>
+                  <p className={`mt-1 text-sm ${task.progress > 80 ? 'text-gray-400' : 'text-gray-600'}`}>
                     {task.description}
                   </p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <span 
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        task.progress === 100 
+                        task.progress > 80 
                           ? 'bg-green-100 text-green-800' 
                           : 'bg-yellow-100 text-yellow-800'
                       }`}
                     >
-                      {task.progress === 100 ? 'Complete' : 'Incomplete'}
+                      {task.progress > 80 ? 'Complete' : 'Incomplete'}
                     </span>
                     
                     {task.priority && (
