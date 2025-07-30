@@ -14,7 +14,7 @@
  * @version 1.0.0
  */
 
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useContext, useEffect, use } from "react";
 
 // Create the authentication context
 const AuthContext = createContext();
@@ -112,6 +112,17 @@ const AuthProvider = ({ children }) => {
    * Clears authentication data and resets state
    */
   const handleLogout = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const userLogs = JSON.parse(localStorage.getItem("userLogs")) || [];
+      const updatedLogs = userLogs.map(log =>
+        log.token === token
+          ? { ...log, logoutTime: new Date().toISOString() }
+          : log
+      );
+      localStorage.setItem("userLogs", JSON.stringify(updatedLogs));
+    }
+
     // Clear all auth-related data from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("userRole");

@@ -202,6 +202,7 @@ const Signup = () => {
       
       // Create log entry for admin tracking
       const logData = {
+        token: mockToken,
         userId: newUser.userId,
         username: newUser.email,
         fullName: newUser.fullName,
